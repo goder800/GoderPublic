@@ -44,9 +44,9 @@ class rates():
         print(f'USD / EUR = {self.USD_EUR}')
         print(f'USD / USDT = {self.USD_USDT}')
         print(f'USD /  BTC = {self.USD_BTC}')
-        print('6 - Back')
+        '''print('6 - Back')
         print('7 - Exit')
-
+'''
     def change_rate(self):
         self.RUB_USD = self.get_RUB_USD() * (1+ random.uniform(-0.05, 0.05))
         self.RUB_EUR = self.get_RUB_EUR() * (1+ random.uniform(-0.05, 0.05))

@@ -1,10 +1,10 @@
 from userAccaunt import account
 from rates import rates
-#from trade import trade
+import sys
 import os
 def menu():
     os.system('cls')
-    print('Current rates:')
+    print('Current pairs:')
     print('  RUB / USD')
     print('  RUB / EUR')
     print('  USD / EUR')
@@ -57,9 +57,10 @@ def trade_window():
         elif trade_window_option==4:
             trade(choose_currency())
         elif trade_window_option==5:
-           menu()
-        elif trade_window_option==6:
+            menu()
             break
+        elif trade_window_option==6:
+            sys.exit()
         else: trade_window_option=0
 def choose_currency():
     while True:
@@ -81,9 +82,9 @@ def choose_currency():
             if 0<choose_currency_option<6:
                 return choose_currency_option
             elif choose_currency_option==6:
-               trade_window()
+                trade_window()
             elif choose_currency_option==7:
-                break
+                sys.exit()
             else: choose_currency_option=0
 def trade(currency):
         exchange_rate=rate.get_rate(currency)
@@ -98,10 +99,16 @@ def trade(currency):
         print('ATM ballance:')
         print(f'{name1}: {atm.get_balance(index1)}')
         print(f'{name2}: {atm.get_balance(index2)}')
-
-        choice = str(input(f'Buy {name1} or Sell {name1}? (buy/sell)'))
+        try:
+            choice = str(input(f'Buy {name1} or Sell {name1}? (buy/sell)'))
+        except:
+            os.system('cls')
+            print('Error: invalid choice')
         if choice == 'sell':
-            amount = float(input(f'How much {name1} do you want to sell?'))
+            try:
+                amount = float(input(f'How much {name1} do you want to sell?'))
+            except:
+                print('Error: invalid amount')
             if amount > user.get_balance(index1):
                 print(f'Error: not enough {name1} on your account')
             elif amount / exchange_rate > atm.get_balance(index2):
@@ -117,7 +124,10 @@ def trade(currency):
                 print('Done!')
 
         elif choice == 'buy':
-            amount = float(input(f'How much {name1} do you want to buy?'))
+            try:
+                amount = float(input(f'How much {name1} do you want to buy?'))
+            except:
+                print('Error: invalid amount')
             if amount > atm.get_balance(index1):
                 print(f'Error: not enough {name1} in the atm')
             elif amount / exchange_rate > user.get_balance(index2):
@@ -132,24 +142,18 @@ def trade(currency):
                 rate.change_rate()
                 print('Done!')
 
-        else:
-            os.system('cls')
-            print('Error: invalid choice')
-
-
 def print_balance(self):
-        balance_option=0
+        '''balance_option=0'''
         os.system('cls')
-        print(f'\n{"=" * 20} {self} balance {"=" * 20}')
+        print(f'{"=" * 20} {self.name} balance {"=" * 20}')
         print(f'RUB: {self.RUB}')
         print(f'USD: {self.USD}')
         print(f'EUR: {self.EUR}')
         print(f'USDT: {self.USDT}')
         print(f'BTC: {self.BTC}')
-        '''
         print('  4 - Back')
         print('  5 - Exit')
-        try:
+        '''try:
             balance_option= int(input())
         except:
             print('invalid option')
@@ -157,8 +161,7 @@ def print_balance(self):
            break
         elif balance_option==5:
             sys.exit()
-        else:balance_option=0
-'''
+        else:balance_option=0'''
 
 if __name__ == '__main__':
     user = account(1000000.0 , 0 , 0 , 0 , 0 , 'user')
@@ -181,9 +184,9 @@ if __name__ == '__main__':
         elif option==3:
             trade_window()
         elif option==4:
-           menu()
+            menu()
         elif option==5:
-            break
+            sys.exit()
         else:option=0
 
 
